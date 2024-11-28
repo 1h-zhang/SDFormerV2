@@ -1,0 +1,43 @@
+# Setup
+version_name: swin_s_nyud_SDFormer_Plus_v1
+out_dir: "../"
+device: cuda
+
+# dataset
+db_path: "E:/Frank/dataset/NYUDv2"
+train_db_name: NYUD
+val_db_name: NYUD
+trBatch: 4
+valBatch: 6
+num_workers: 4
+ignore_index: 255
+num_classes: 40
+
+# optimizer and scheduler
+intermediate_supervision: False
+epochs: 200
+warm_epochs: 3
+optimizer: adam
+optimizer_kwargs:
+    lr: 0.00002
+    weight_decay: 0.000001
+
+# model
+pretrained: 'E:/Frank/model-weight/CMX_pretrained_models/swintransformer/swin_small_patch4_window7_224.pth'
+backbone: swin_s
+decoder_embed_dim: 512
+PRED_OUT_NUM_CONSTANT: 64
+
+# Tasks
+task_dictionary:
+    include_semseg: True
+    include_depth: True
+    include_edge: False
+    include_normals: False
+    edge_w: 0.95
+
+# Loss kwargs
+loss_kwargs:
+   loss_weights:
+       semseg: 1.0
+       depth: 1.0

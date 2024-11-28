@@ -1,0 +1,44 @@
+# Setup
+version_name: swinb_city_seg_depth_7_21
+out_dir: "../"
+device: cuda
+
+
+# dataset
+db_path: 'E:/Frank/dataset/Cityscapes'
+train_db_name: CITYSCAPE
+val_db_name: CITYSCAPE
+trBatch: 4
+valBatch: 4
+num_workers: 4
+ignore_index: 255
+num_classes: 19
+
+# optimizer and scheduler
+intermediate_supervision: False
+epochs: 60
+optimizer: adam
+warm_epochs: 2
+optimizer_kwargs:
+    lr: 0.00004
+    weight_decay: 0.000001
+
+# model
+pretrained: 'E:/Frank/model-weight/CMX_pretrained_models/swintransformer/swin_small_patch4_window7_224.pth'
+backbone: swin_s
+decoder_embed_dim: 512
+PRED_OUT_NUM_CONSTANT: 64
+
+# Tasks
+task_dictionary:
+    include_semseg: True
+    include_depth: True
+    include_edge: False
+    include_normals: False
+    edge_w: 0.95
+
+# Loss kwargs
+loss_kwargs:
+   loss_weights:
+       semseg: 50
+       depth: 1.0
